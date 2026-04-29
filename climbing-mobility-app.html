@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Climber Hip Mobility</title>
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mobility">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--s9:#0f172a;--s8:#1e293b;--s7:#334155;--s6:#475569;--s5:#64748b;--s4:#94a3b8;--s3:#cbd5e1;--s2:#e2e8f0;--s1:#f1f5f9;--s0:#f8fafc;--t7:#0f766e;--t6:#0d9488;--t5:#14b8a6;--t4:#2dd4bf;--t1:#ccfbf1;--t0:#f0fdfa;--a6:#d97706;--a5:#f59e0b;--a1:#fef3c7;--a0:#fffbeb;--g6:#16a34a;--g5:#22c55e;--g1:#dcfce7;--p6:#7c3aed;--p1:#ede9fe}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--s0);color:var(--s8);min-height:100vh;max-width:500px;margin:0 auto;padding-bottom:90px}
+.mono{font-family:'JetBrains Mono',monospace}
+.hero{background:linear-gradient(155deg,#0f172a,#1e293b 60%,#334155);padding:36px 20px 28px;color:#fff;position:relative;overflow:hidden}
+.hero::after{content:'🧗';position:absolute;top:-15px;right:-5px;font-size:110px;opacity:.05}
+.hero-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2.5px;color:var(--t4);margin-bottom:8px}
+.hero h1{font-size:24px;font-weight:800;line-height:1.2;letter-spacing:-.3px;margin-bottom:6px}
+.hero p{font-size:13px;color:var(--s4);line-height:1.4}
+.badges{display:flex;gap:4px;margin-top:14px;flex-wrap:wrap}
+.badge{font-size:11px;color:var(--s4);background:rgba(255,255,255,.08);padding:4px 10px;border-radius:6px}
+.streak{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#ff6b35,#f7931e);color:#fff;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.stats{display:flex;gap:8px;padding:16px}
+.stat{flex:1;background:#fff;border-radius:12px;padding:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--s2)}
+.stat-v{font-size:22px;font-weight:800;color:var(--s9)}
+.stat-l{font-size:10px;color:var(--s5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px;font-weight:600}
+.tabs{display:flex;gap:4px;padding:0 16px;margin-bottom:12px;overflow-x:auto}
+.tab{flex:1;min-width:0;padding:10px 6px;border-radius:10px;border:1px solid var(--s2);font-family:'DM Sans';font-size:12px;font-weight:700;cursor:pointer;text-align:center;background:#fff;color:var(--s5);transition:.2s}
+.tab.on{background:var(--s9);color:#fff;border-color:var(--s9)}
+.ptabs{display:flex;gap:6px;padding:0 16px;margin-bottom:6px}
+.ptab{flex:1;padding:10px 6px;border-radius:10px;border:1px solid var(--s2);font-family:'DM Sans';font-size:11px;font-weight:700;cursor:pointer;text-align:center;background:#fff;color:var(--s5);transition:.2s;line-height:1.3}
+.ptab.on{background:var(--s9);color:#fff;border-color:var(--s9)}
+.ptab-s{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;opacity:.7;margin-bottom:2px}
+.dtabs{display:flex;gap:6px;padding:0 16px;margin:8px 0 12px}
+.dtab{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--s2);font-family:'DM Sans';font-size:11px;font-weight:700;cursor:pointer;text-align:center;background:#fff;color:var(--s5);transition:.2s}
+.dtab.on{background:var(--t6);color:#fff;border-color:var(--t6)}
+.bhead{display:flex;align-items:center;gap:8px;padding:0 16px;margin:14px 0 8px}
+.bletter{width:26px;height:26px;border-radius:6px;background:var(--t0);color:var(--t7);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.btitle{font-size:12px;font-weight:700;color:var(--s7);text-transform:uppercase;letter-spacing:.5px}
+.card{background:#fff;border-radius:14px;margin:0 16px 8px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--s2);overflow:hidden}
+.card.isnew{border:2px solid var(--a5)}.card.isdone{border-color:var(--g5);background:#fafffe}.card.isasym{border-left:3px solid var(--p6)}
+.chdr{padding:12px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none}
+.cnum{width:28px;height:28px;border-radius:7px;background:var(--s9);color:var(--t1);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:1px}
+.cnum.done{background:var(--g5);color:#fff}
+.cinfo{flex:1;min-width:0}.ctrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cname{font-size:13px;font-weight:700;color:var(--s9);line-height:1.3}
+.bnew{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--a6);background:var(--a1);padding:2px 6px;border-radius:3px}
+.basym{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--p6);background:var(--p1);padding:2px 6px;border-radius:3px}
+.cmeta{display:flex;gap:10px;margin-top:3px;flex-wrap:wrap}.cmeta span{font-size:10px}
+.mt{color:var(--s5)}.mg{color:var(--t6);font-weight:600}
+.chev{font-size:16px;color:var(--s4);transition:transform .2s;flex-shrink:0;margin-top:3px}.chev.open{transform:rotate(180deg)}
+.cbody{padding:0 14px 14px;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.vid{display:block;position:relative;border-radius:10px;overflow:hidden;margin-bottom:10px;aspect-ratio:16/9;background:var(--s9);text-decoration:none}
+.vid img{width:100%;height:100%;object-fit:cover;opacity:.9;display:block}
+.vov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.2)}
+.vplay{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.varr{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:14px solid var(--s9);margin-left:3px}
+.vlbl{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.7);color:#fff;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px}
+.wbox{padding:8px 12px;border-radius:8px;margin-bottom:10px;border-left:3px solid}
+.wbox.why{background:var(--t0);border-color:var(--t6)}.wbox.tip{background:var(--a0);border-color:var(--a5)}.wbox.asym{background:var(--p1);border-color:var(--p6)}
+.wlbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.wbox.why .wlbl{color:var(--t7)}.wbox.tip .wlbl{color:var(--a6)}.wbox.asym .wlbl{color:var(--p6)}
+.wtxt{font-size:12px;color:var(--s7);line-height:1.5}
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--s5);margin-bottom:6px}
+.srow{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+.snum{width:18px;height:18px;border-radius:50%;background:var(--s1);color:var(--s6);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.stxt{font-size:12px;color:var(--s7);line-height:1.45}
+.tbar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--s1);border-radius:8px;margin-top:8px;transition:.3s}
+.tbar.run{background:var(--a0)}.tbar.dn{background:var(--g1)}
+.tring{position:relative;width:38px;height:38px;flex-shrink:0}
+.tring svg{width:38px;height:38px}
+.tdisp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--s7)}
+.tlbl{flex:1;font-size:11px;color:var(--s5)}.tbtns{display:flex;gap:5px}
+.tbtn{padding:4px 12px;border-radius:5px;border:none;font-size:11px;font-weight:600;font-family:'DM Sans';cursor:pointer}
+.tstart{background:var(--s9);color:#fff}.tpause{background:var(--a1);color:var(--a6)}.tdone{background:var(--g1);color:var(--g6)}
+.trst{padding:4px 8px;border-radius:5px;border:1px solid var(--s3);background:#fff;color:var(--s5);font-size:11px;cursor:pointer}
+.bcmp{width:100%;padding:10px;border-radius:8px;border:2px dashed var(--s3);background:transparent;font-family:'DM Sans';font-size:12px;font-weight:700;color:var(--s5);cursor:pointer;margin-top:10px;transition:.2s}
+.bcmp:hover{border-color:var(--g5);color:var(--g6)}.bcmp.dn{border:2px solid var(--g5);background:var(--g1);color:var(--g6);border-style:solid}
+.blog{display:block;width:calc(100% - 32px);margin:16px;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--t6),var(--t7));color:#fff;font-family:'DM Sans';font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(13,148,136,.3)}
+.blog:active{transform:scale(.98)}
+.coll{background:#fff;border-radius:14px;margin:0 16px 8px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--s2);overflow:hidden}
+.collh{padding:12px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.collb{padding:0 14px 14px;animation:fi .2s ease}
+.hentry{background:#fff;border-radius:12px;padding:12px 14px;margin:0 16px 8px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--s2);display:flex;align-items:center;justify-content:space-between}
+.hdate{font-size:13px;font-weight:600;color:var(--s8)}.hmeta{font-size:11px;color:var(--s5);margin-top:2px}
+.hphase{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:3px 8px;border-radius:5px;background:var(--s1);color:var(--s6)}
+.hdel{background:none;border:none;font-size:16px;color:var(--s4);cursor:pointer;padding:4px 6px;margin-left:6px}
+.ncard{background:#fff;border-radius:12px;padding:12px 14px;margin:0 16px 8px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--s2)}
+.ndate{font-size:10px;color:var(--s5);font-weight:600;margin-bottom:5px}
+.ntxt{font-size:12px;color:var(--s7);line-height:1.5;white-space:pre-wrap}
+.ninp{width:100%;min-height:70px;padding:10px;border:1px solid var(--s3);border-radius:8px;font-family:'DM Sans';font-size:13px;color:var(--s8);resize:vertical;outline:none}
+.ninp:focus{border-color:var(--t5)}
+.nsave{margin-top:6px;padding:8px 18px;border-radius:7px;border:none;background:var(--s9);color:#fff;font-family:'DM Sans';font-size:12px;font-weight:600;cursor:pointer}
+.empty{text-align:center;padding:36px 20px;color:var(--s4)}.empty .emo{font-size:44px;margin-bottom:10px}.empty p{font-size:12px;line-height:1.5}
+.dark{background:var(--s9);border-radius:14px;padding:14px;margin:8px 16px;color:var(--s4)}
+.dark .wlbl{color:var(--t4);margin-bottom:8px}.dark p{font-size:11px;line-height:1.6;margin-bottom:6px}.dark strong{color:#fff}
+.section-note{padding:4px 16px;font-size:11px;color:var(--s5);font-style:italic;margin-bottom:4px}
+/* Progress tab */
+.pcard{background:#fff;border-radius:14px;margin:0 16px 10px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--s2);padding:14px;overflow:hidden}
+.pcard-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pcard-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pcard-nm{font-size:14px;font-weight:700;color:var(--s9)}
+.pcard-unit{font-size:10px;color:var(--s5);font-weight:600}
+.pinp-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.pinp{flex:1;padding:8px 12px;border:1px solid var(--s3);border-radius:8px;font-family:'DM Sans';font-size:14px;color:var(--s8);outline:none;-moz-appearance:textfield}
+.pinp::-webkit-inner-spin-button,.pinp::-webkit-outer-spin-button{-webkit-appearance:none}
+.pinp:focus{border-color:var(--t5)}
+.pinp-note{flex:1;padding:8px 12px;border:1px solid var(--s3);border-radius:8px;font-family:'DM Sans';font-size:12px;color:var(--s8);outline:none}
+.pinp-note:focus{border-color:var(--t5)}
+.pbtn{padding:8px 16px;border-radius:8px;border:none;background:var(--t6);color:#fff;font-family:'DM Sans';font-size:12px;font-weight:700;cursor:pointer}
+.pbtn:active{transform:scale(.97)}
+.spark{width:100%;height:60px;margin-top:6px}
+.pentry{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--s1);font-size:11px}
+.pentry:last-child{border:none}
+.pentry-dt{color:var(--s5);font-weight:600}
+.pentry-val{color:var(--s9);font-weight:700;font-size:13px}
+.pentry-note{color:var(--s5);font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pentry-del{background:none;border:none;color:var(--s4);cursor:pointer;font-size:14px;padding:2px 4px}
+.ptoggle{font-size:11px;color:var(--t6);font-weight:600;cursor:pointer;background:none;border:none;font-family:'DM Sans';padding:4px 0}
+.ptrend{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;margin-top:4px}
+.ptrend.up{color:var(--g6)}.ptrend.dn{color:#dc2626}.ptrend.flat{color:var(--s5)}
+/* Dark mode toggle */
+.dm-toggle{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:.2s}
+.dm-toggle:active{transform:scale(.9)}
+/* Dark mode overrides */
+body.dm{--s9:#f1f5f9;--s8:#e2e8f0;--s7:#cbd5e1;--s6:#94a3b8;--s5:#94a3b8;--s4:#64748b;--s3:#334155;--s2:#1e293b;--s1:#1a2332;--s0:#0c1220;--t7:#5eead4;--t6:#2dd4bf;--t5:#14b8a6;--t4:#2dd4bf;--t1:#134e4a;--t0:#0d2d2a;--a6:#fbbf24;--a5:#f59e0b;--a1:#422006;--a0:#1c1708;--g6:#4ade80;--g5:#22c55e;--g1:#052e16;--p6:#a78bfa;--p1:#1e1b4b}
+body.dm .hero{background:linear-gradient(155deg,#060a13,#0c1220 60%,#141e30)}
+body.dm .stat,body.dm .card,body.dm .coll,body.dm .hentry,body.dm .ncard,body.dm .pcard{background:#111827;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+body.dm .tab{background:#111827}
+body.dm .tab.on{background:var(--t6);color:#fff;border-color:var(--t6)}
+body.dm .ptab{background:#111827}
+body.dm .ptab.on{background:var(--t6);color:#fff;border-color:var(--t6)}
+body.dm .dtab{background:#111827}
+body.dm .card.isdone{background:#0a1a12}
+body.dm .wbox.why{background:#0d2d2a}.dm .wbox.tip{background:#1c1708}.dm .wbox.asym{background:#1e1b4b}
+body.dm .tbar{background:#1a2332}.dm .tbar.run{background:#1c1708}.dm .tbar.dn{background:#052e16}
+body.dm .trst{background:#1e293b;border-color:#334155}
+body.dm .bcmp{border-color:#334155}
+body.dm .bcmp.dn{background:#052e16;border-color:var(--g5)}
+body.dm .blog{box-shadow:0 4px 12px rgba(0,0,0,.4)}
+body.dm .ninp,body.dm .pinp,body.dm .pinp-note{background:#1a2332;border-color:#334155;color:#e2e8f0}
+body.dm .dark{background:#060a13}
+body.dm .vid{background:#060a13}
+body.dm .snum{background:#1a2332}
+body.dm .hphase{background:#1a2332}
+body.dm .dm-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const V={couch:'WKo4APrwfXQ',nn:'ED8NnqRIK-Q',frog:'mO8S7qOdcdU',fig4:'-g0nuyTHMrI',adr:'Vr0Us9LPGRg',cos:'tpczTeSkHz0',pan:'CHRUb43S6RM',pike:'sXkv2JutXxo',pig:'lBeiv_AjPCE',cat:'kqnua4rHVVA',twist:'jOR7IfbbKSA',scorp:'9f8g_sWcOFY',jeff:'nYS0R4c3qCA'};
+const EX={
+1:[
+{id:'1a1',bl:'A',bt:'Hip Flexor Opening',nm:'Half-Kneeling Hip Flexor Activation',dur:60,dl:'30s/side',tg:'Hip Flexors',vid:V.couch,lv:['q','s','d'],why:'Glute squeeze reciprocally inhibits hip flexor — primes it for deeper stretching.',st:['Kneel on right knee, left foot forward','Keep torso upright','Squeeze right glute HARD, shift hips forward 2-3cm','Hold 30s. Tailbone tucked, no arching','Switch sides'],tp:["Can't feel it? Squeeze glute harder","Towel under knee"]},
+{id:'1a2',bl:'A',nm:'Couch Stretch + PAILs/RAILs',dur:180,dl:'90s/side',tg:'Hip Flexors + Quads',vid:V.couch,vt:52,lv:['q','s','d'],why:'Most effective heel hook unlocker. PAILs/RAILs = 2-3x more range than passive stretching.',st:['Face away from wall. Right knee down, shin against wall','Left foot forward, walk torso upright','First 60s: Hold, breathe, sink deeper per exhale','PAILs (5s): Drive knee into floor toward wall — 30%','RAILs (5s): Squeeze glute, tuck pelvis — 30%','3 PAILs/RAILs cycles in last 30s','Switch sides'],tp:['Too intense? Move knee from wall','Wider front foot at your height','Keep breathing']},
+{id:'1b1',bl:'B',bt:'External Rotation',nm:'90/90 Hip Switches',dur:60,dl:'10 reps',tg:'Hip IR + ER',vid:V.nn,lv:['q','s','d'],why:'Both internal and external rotation — range for drop knees and flags.',st:['Sit, both knees at 90°','Rotate both legs opposite — windshield wiper','3s per switch, 10 total'],tp:['Hip pinch? Lean torso forward','Hands behind for support']},
+{id:'1b2',bl:'B',nm:'Frog Stretch + Rocking',dur:90,dl:'90 sec',tg:'Adductors + Hip Capsule',vid:V.frog,lv:['q','s','d'],why:'Mimics frog position on wall. Rocking before holding = deeper range.',st:['All fours, spread knees wide, feet turned out','Rock hips toward heels: 3s back, 3s forward','Go further each time','After 60s rocking, HOLD deepest 30s','Breathe belly — imagine pushing knees apart'],tp:['At 193cm, forearms on block for neutral spine','Lower back rounds? Elevate upper body']},
+{id:'1b3',bl:'B',nm:'Supine Figure-4 Stretch',dur:120,dl:'60s/side',tg:'Glutes + External Rotators',vid:V.fig4,lv:['q','s','d'],why:'Takes lower back out completely — great with your lower back stiffness.',st:['Lie on back, both knees bent, feet flat','Cross right ankle over left knee (figure-4)','Pull left thigh toward chest with both hands','Press right knee gently away','Hold 60s, switch sides'],tp:['Pull thigh closer = more intense','Head + shoulders relaxed on floor']},
+{id:'1c1',bl:'C',bt:'Adductors / Cossack',nm:'Adductor Rock-Backs',dur:120,dl:'60s/side',tg:'Adductors',vid:V.adr,lv:['q','s','d'],why:'Opens inner thigh in back-friendly position. Transfers to wide feet + stemming.',st:['Half-kneeling, extend right leg straight to side','Hands on floor, rock hips back toward left heel','3s back, 3s forward, deeper each rep','60s then switch'],tp:['Back FLAT — rounding blocks adductor stretch','Foot against wall to stop sliding']},
+{id:'1c2',bl:'C',nm:'Assisted Cossack Squat',dur:60,dl:'60s alternating',tg:'Adductors + Hips',vid:V.cos,lv:['q','s','d'],why:'Builds toward full Cossack. Support = depth while range catches up.',st:['Wide stance, hold doorframe','Shift weight right, deep side squat','Right foot flat, left leg straight, toes up','Hold bottom 5s, switch. Alternate 60s'],tp:['Heel DOWN — non-negotiable','Light weight at chest as counterbalance']},
+{id:'1d1',bl:'D',bt:'Posterior Chain',nm:'Seated Straddle Good Morning',dur:90,dl:'90 sec',tg:'Hamstrings + Lower Back',vid:V.pan,lv:['s','d'],why:'You fall backwards sitting — this teaches hip flexors to hold you upright while stretching posterior chain.',st:['Sit legs in comfortable straddle','Hands behind head or crossed on chest','Tilt pelvis FORWARD (bum out) — the key','Hinge forward from hips, back flat','Only as far as back stays straight. Hold 3s','Return upright. Repeat 90s'],tp:['Sit on cushion to elevate hips','Back flat > going deep','Feels very different from passive fold']},
+{id:'1d2',bl:'D',nm:'Standing Forward Fold',dur:60,dl:'60 sec',tg:'Hamstrings',vid:V.pike,lv:['s','d'],why:'Hamstring length helps weight your feet better on wall.',st:['Stand hip width, slight knee bend OK','Fold from hips, arms hang','Grab opposite elbows, let gravity pull','Hold 60s — every exhale let go more'],tp:['Slight knee bend totally fine','Hinge at hips, dont round spine']},
+{id:'1e1',bl:'E',bt:'Asymmetry + Recovery',nm:'Extra Pigeon (Right Side)',dur:90,dl:'90 sec',tg:'Right Hip ER',vid:V.pig,lv:['d'],asym:true,why:'Right side significantly tighter — this closes the gap.',st:['Right shin in front, angled ~45°','Left leg behind, hips square','Walk hands forward, lower chest','Hold 90s, relax right glute','RIGHT SIDE ONLY'],tp:['Cushion under right hip if it lifts','Angle shin less if too intense']},
+{id:'1e2',bl:'E',nm:'Cat-Cow Spinal Flow',dur:60,dl:'60 sec',tg:'Spinal Mobility',vid:V.cat,lv:['d'],why:'Mobilizes stiff lower back that limits pancake and sitting.',st:['Hands + knees, wrists under shoulders','Inhale: belly drops, chest lifts (cow)','Exhale: round spine, tuck chin (cat)','4s each direction, move each vertebra'],tp:['Exaggerate the movement','Extra time rounding lower back']},
+{id:'1e3',bl:'E',nm:'Supine Spinal Twist',dur:120,dl:'60s/side',tg:'Lower Back + Thoracic',vid:V.twist,lv:['d'],why:'Releases lower back tension after climbing.',st:['Lie on back, pull right knee to chest','Let it fall across to left side','Right arm out, look right','Both shoulders on floor','Hold 60s, switch'],tp:['Let gravity work — no forcing']}
+],
+2:[
+{id:'2a1',bl:'A',bt:'Hip Flexor Opening',nm:'Half-Kneeling Activation',dur:60,dl:'30s/side',tg:'Hip Flexors',vid:V.couch,lv:['q','s','d'],why:'Primes hip flexor before loaded work.',st:['Kneel, squeeze glute, shift hips forward','30s each side'],tp:['Warm-up for loaded work next']},
+{id:'2a2',bl:'A',nm:'Rear Foot Elevated Split Squat',dur:180,dl:'90s/side',tg:'Hip Flexors (loaded)',vid:V.couch,vt:52,lv:['q','s','d'],isnew:true,why:'Replaces couch stretch. STRENGTH in lengthened position — what heel hooks need.',st:['Couch setup: knee down, shin against wall','Lower into deep lunge — 3s down','Pause 3s at bottom, drive up 3s','5-6 slow reps per side','Hold bottom of LAST rep 15s'],tp:['Bodyweight only — control not load','Chair for rear foot if too intense']},
+{id:'2b1',bl:'B',bt:'External Rotation',nm:'90/90 Switches (faster)',dur:40,dl:'40 sec',tg:'Hip IR + ER',vid:V.nn,lv:['q','s','d'],why:'Faster tempo — more range now.',st:['Same 90/90, 2s per switch','Try unsupported (hands off floor)'],tp:['One hand down if unsupported is hard']},
+{id:'2b2',bl:'B',nm:'Frog Stretch + Rocking',dur:90,dl:'90 sec',tg:'Adductors',vid:V.frog,lv:['q','s','d'],why:'Push for more depth.',st:['Same frog, wider knees','Rock 60s, hold deepest 30s'],tp:['Should be deeper than week 1']},
+{id:'2b3',bl:'B',nm:'Active Heel Hook Drill',dur:60,dl:'60 sec',tg:'Heel Hook Strength',vid:null,lv:['q','s','d'],isnew:true,why:'Mimics exact heel hook demand. End-range strength.',st:['Lie on back near table/chair','Hook heel over edge at hip height','Pull with hamstring, squeeze glute','Lift hips using ONLY heel hook. Hold 5s','5 reps each side'],tp:['Start lower if hard','Should feel like real heel hook']},
+{id:'2b4',bl:'B',nm:'Supine Figure-4 Stretch',dur:120,dl:'60s/side',tg:'Glutes + ER',vid:V.fig4,lv:['s','d'],why:'Maintain external rotation.',st:['Same figure-4','Pull thigh closer for more intensity','60s each side'],tp:['Pull knee across body for deeper stretch']},
+{id:'2c1',bl:'C',bt:'Adductors / Cossack',nm:'Adductor Rock-Backs',dur:120,dl:'60s/side',tg:'Adductors',vid:V.adr,lv:['q','s','d'],why:'Continue building length.',st:['Same as Phase 1, push further','60s each side'],tp:['Deeper by now']},
+{id:'2c2',bl:'C',nm:'Unassisted Cossack + Pause',dur:60,dl:'60s alternating',tg:'Adductors (loaded)',vid:V.cos,lv:['q','s','d'],isnew:true,why:'No support — real strength in new range.',st:['Same Cossack, NO support','2-5kg at chest if needed','3s down, 5s hold, 3s up','Alternate 60s'],tp:['Quality > depth']},
+{id:'2d1',bl:'D',bt:'Posterior Chain',nm:'Pancake Fold + Anterior Tilt',dur:120,dl:'2 min',tg:'Hamstrings + Adductors',vid:V.pan,lv:['s','d'],isnew:true,why:'Anterior pelvic tilt is the key you were missing for seated folds.',st:['Straddle on cushion (elevate hips!)','Tilt pelvis forward HARD — bum out','Walk hands forward, back FLAT','Only as far as back stays straight','Hold 10s, return. 6-8 reps'],tp:['Cushion alone fixes falling backward','Flat back WAY more important than depth','Long levers at 193cm — be patient']},
+{id:'2d2',bl:'D',nm:'Jefferson Curl (light)',dur:60,dl:'60 sec',tg:'Spinal + Hamstrings',vid:V.jeff,lv:['s','d'],isnew:true,why:'Safely builds spinal flexion. Addresses lower back stiffness directly.',st:['Stand on step, feet together, hold 1-2kg','Tuck chin, round down ONE vertebra at a time','Arms hang with weight toward floor','Go as far as comfortable','Uncurl from bottom up','5-6 very slow reps'],tp:['VERY light (1-2kg max)','Flat ground first if scary','Each rep = 10-15 seconds']},
+{id:'2e1',bl:'E',bt:'Asymmetry + Recovery',nm:'Pigeon Right + PAILs',dur:90,dl:'90 sec',tg:'Right Hip ER',vid:V.pig,lv:['d'],asym:true,why:'Adding contract-relax to right side catch-up.',st:['Right shin pigeon, 60s passive','PAILs (5s): Press shin into floor — 30%','RAILs (5s): Lift knee off floor — 30%','3 cycles in last 30s'],tp:['RIGHT SIDE ONLY']},
+{id:'2e2',bl:'E',nm:'Scorpion Stretch',dur:60,dl:'30s/side',tg:'Hip Flexors + Thoracic',vid:V.scorp,lv:['d'],isnew:true,why:'Hip flexors + thoracic rotation — great for twisting moves.',st:['Face down, arms in T','Lift right leg, swing across toward left hand','Keep right shoulder on floor','30s, switch'],tp:['Only as far as shoulder stays down']},
+{id:'2e3',bl:'E',nm:'Supine Spinal Twist',dur:120,dl:'60s/side',tg:'Lower Back',vid:V.twist,lv:['d'],why:'Continued release.',st:['Same as Phase 1, 60s/side'],tp:['Let gravity work']}
+],
+3:[
+{id:'3a1',bl:'A',bt:'Hip Flexor Power',nm:'Lunge + Overhead Reach',dur:120,dl:'60s/side',tg:'Hip Flexors + Core',vid:V.couch,lv:['q','s','d'],isnew:true,why:'Arms overhead = maximum hip flexor length under engagement. Mimics full-body climbing.',st:['Deep lunge, back knee down','Squeeze back glute, tuck pelvis','Reach both arms overhead','Lean slightly to front-leg side','Hold 30s + small pulses 30s','Switch'],tp:['Arms overhead intensifies a LOT','Keep ribs down']},
+{id:'3a2',bl:'A',nm:'Wall Hip Flexor (elevated)',dur:120,dl:'60s/side',tg:'Hip Flexors (advanced)',vid:V.couch,lv:['q','s','d'],why:'Progression — foot higher on wall for max range.',st:['Couch stretch, walk front foot further forward','Torso fully vertical','PAILs/RAILs 3 cycles last 30s','Switch'],tp:['Significantly deeper than Phase 1']},
+{id:'3b1',bl:'B',bt:'Rotation + Climbing',nm:'90/90 Forward Lean Hold',dur:60,dl:'30s/side',tg:'Hip ER (deep)',vid:V.nn,lv:['q','s','d'],isnew:true,why:'Loaded ER hold mimics drop knee position.',st:['90/90, right leg front','Lean torso forward over front shin','Walk hands far forward','Hold 30s, switch'],tp:['Front shin doesnt need parallel yet','Intense — adjust lean depth']},
+{id:'3b2',bl:'B',nm:'Frog Stretch — Hold Focus',dur:90,dl:'90 sec',tg:'Adductors',vid:V.frog,lv:['q','s','d'],why:'Good range now — longer holds deepen it.',st:['Same frog, 30s rocking, 60s static hold at max'],tp:['Wider than Phase 1-2']},
+{id:'3b3',bl:'B',nm:'Heel Hook — Elevated',dur:60,dl:'60 sec',tg:'Heel Hook Strength',vid:null,lv:['q','s','d'],why:'Higher surface with more range.',st:['Same drill, higher surface','Hook, lift hips, hold 5s','Add 2-3s lowering (eccentric)','5 reps/side'],tp:['Challenging but not impossible height']},
+{id:'3c1',bl:'C',bt:'Cossack + Pancake',nm:'Cossack + Rotation',dur:90,dl:'90s alternating',tg:'Adductors + Thoracic',vid:V.cos,lv:['q','s','d'],isnew:true,why:'Rotation in Cossack = reaching from wide stance on wall.',st:['Unassisted Cossack','At bottom: rotate toward bent knee','Reach top arm overhead, hold 5s','Stand, switch. Alternate 90s'],tp:['Rotation from mid-back, not lower','Keep heel planted']},
+{id:'3c2',bl:'C',nm:'Standing Pancake Good Morning',dur:90,dl:'90 sec',tg:'Hamstrings + Adductors',vid:V.pan,lv:['s','d'],isnew:true,why:'Standing straddle fold — gravity assists.',st:['Wide stance, toes slightly out','Hands behind head, hinge with flat back','As deep as back stays straight','3s down, 3s hold, 3s up. Repeat 90s'],tp:['Harder than seated — flat back mandatory','Go wider at your height']},
+{id:'3d1',bl:'D',bt:'Posterior Chain',nm:'Seated Pancake + Anterior Tilt',dur:120,dl:'2 min',tg:'Hamstrings + Adductors',vid:V.pan,lv:['s','d'],why:'Direct pancake progression.',st:['Cushion, straddle, anterior tilt','Walk to each foot: 30s left, 30s right, 30s center','CHEST forward, not head down'],tp:['Sit higher if back rounds','Walk hands, dont reach feet']},
+{id:'3d2',bl:'D',nm:'Jefferson Curl (progressive)',dur:60,dl:'60 sec',tg:'Spinal + Hamstrings',vid:V.jeff,lv:['s','d'],why:'More range + possibly more weight.',st:['On step, 2-4kg, slow curls','Try reaching past feet','6-8 slow reps'],tp:['Only add weight if Phase 2 was easy']},
+{id:'3e1',bl:'E',bt:'Asymmetry + Advanced',nm:'Pigeon Right — Progressive',dur:90,dl:'90 sec',tg:'Right Hip ER',vid:V.pig,lv:['d'],asym:true,why:'Try shin closer to parallel.',st:['Right pigeon, shin toward parallel','PAILs/RAILs last 30s','Compare to left — gap should shrink'],tp:['Back off if pinching']},
+{id:'3e2',bl:'E',nm:'Horse Stance Hold',dur:60,dl:'60 sec',tg:'Adductors + Quads',vid:V.cos,lv:['d'],isnew:true,why:'Isometric wide stance = stemming transfer.',st:['Wide, toes out, sink down toward thighs parallel','Torso upright, hands at chest','Hold max, rest, repeat to fill 60s'],tp:['Burning = normal','Dont go deeper than you can hold well']},
+{id:'3e3',bl:'E',nm:'Supine Spinal Twist',dur:120,dl:'60s/side',tg:'Recovery',vid:V.twist,lv:['d'],why:'Spinal health.',st:['60s each side'],tp:['Relax completely']}
+],
+4:[
+{id:'4a1',bl:'A',bt:'Hip Flexor Mastery',nm:'Weighted Lunge Stretch',dur:120,dl:'60s/side',tg:'Hip Flexors (loaded)',vid:V.couch,lv:['q','s','d'],isnew:true,why:'Light load = end-range strength for powerful heel hooks.',st:['Deep lunge, hold 2-5kg overhead','Squeeze glute, tuck pelvis, sink deep','30s static + 5 slow pulses','Switch'],tp:['Light weight only (2-5kg)','Stop if back arches']},
+{id:'4a2',bl:'A',nm:'Active Straight Leg Raise',dur:60,dl:'30s/side',tg:'Hip Flexor Strength',vid:V.pike,lv:['q','s','d'],isnew:true,why:'Active flexibility to lift leg high on wall.',st:['Lie on back, legs straight','Lift right leg as high as possible — NO hands','ONLY hip flexor strength','Hold max height 10s, 5 reps/side'],tp:['Active range < passive — normal','Building usable range']},
+{id:'4b1',bl:'B',bt:'Rotation + Power',nm:'90/90 Lift-Off',dur:60,dl:'30s/side',tg:'Hip ER Strength',vid:V.nn,lv:['q','s','d'],isnew:true,why:'Active ER strength — hold drop knees under load.',st:['90/90, lean over front shin','Lift BACK knee off ground — hip muscles only','Hold 5s, lower. 5 reps, switch'],tp:['Very hard — 1cm counts','Hands on floor for balance']},
+{id:'4b2',bl:'B',nm:'Frog — PAILs/RAILs',dur:90,dl:'90 sec',tg:'Adductors (advanced)',vid:V.frog,lv:['q','s','d'],isnew:true,why:'Contract-relax for maximum frog depth.',st:['Frog at deepest point','PAILs (5s): Squeeze knees together — 30%','RAILs (5s): Push knees apart — 30%','Alternate 60s, then 30s static hold'],tp:['Much deeper than Phase 1 frog']},
+{id:'4b3',bl:'B',nm:'Heel Hook — Full Sequence',dur:60,dl:'60 sec',tg:'Heel Hook Power',vid:null,lv:['q','s','d'],why:'Full heel hook with eccentric control.',st:['High surface, hook heel','Pull hips up (3s), hold (5s), lower slowly (5s)','5 reps/side'],tp:['Should feel powerful + controlled']},
+{id:'4c1',bl:'C',bt:'Cossack + Integration',nm:'Deep Cossack + Reach',dur:90,dl:'90s alternating',tg:'Full Hip Complex',vid:V.cos,lv:['q','s','d'],isnew:true,why:'Combines Cossack + reach = climbing-specific integration.',st:['Deep Cossack right','At bottom, reach right arm up + back','Hold 5s, stand, switch','Alternate 90s'],tp:['Combines everything youve built']},
+{id:'4d1',bl:'D',bt:'Posterior Chain Mastery',nm:'Pancake — Full Expression',dur:120,dl:'2 min',tg:'Hamstrings + Adductors',vid:V.pan,lv:['s','d'],why:'Pancake should be noticeably better. Push for chest-to-floor.',st:['Cushion, straddle, anterior tilt','Max depth hold 30s','Walk to each leg 30s','Center 30s'],tp:['Film + compare to week 1']},
+{id:'4d2',bl:'D',nm:'Jefferson Curl (full range)',dur:60,dl:'60 sec',tg:'Spinal + Hamstrings',vid:V.jeff,lv:['s','d'],why:'Full spinal flexion expression.',st:['On step, 3-5kg, very slow','Reach past feet level','8-10 reps'],tp:['Only progress weight when previous was easy']},
+{id:'4e1',bl:'E',bt:'Integration + Test',nm:'Pigeon Both Sides — Compare',dur:120,dl:'60s/side',tg:'Hip ER',vid:V.pig,lv:['d'],why:'Test both sides — right should be close to left now.',st:['Full pigeon, shin toward parallel','60s RIGHT, 60s LEFT','Note the difference'],tp:['If still uneven, continue extra right work']},
+{id:'4e2',bl:'E',nm:'Climbing Movement Flow',dur:120,dl:'2 min',tg:'Full Integration',vid:V.cos,lv:['d'],isnew:true,why:'Every skill in one flowing sequence mimicking wall movement.',st:['Deep squat, knees wide, elbows pushing','Step right into Cossack, hold 5s','Flow to left Cossack, hold 5s','Transition to pigeon left','Roll to supine figure-4 right','Stand, repeat other direction','Flow 2 minutes'],tp:['Slow + controlled','This IS your movement test']},
+{id:'4e3',bl:'E',nm:'Supine Spinal Twist',dur:120,dl:'60s/side',tg:'Recovery',vid:V.twist,lv:['d'],why:'Finish with spinal release.',st:['60s each side, relax completely'],tp:['Always end here']}
+]};
+
+const PI=[{t:'Foundation',s:'Build basic passive range',w:'Wk 1–4'},{t:'Deepen & Load',s:'Strengthen new range + posterior chain',w:'Wk 5–8'},{t:'Integrate',s:'Climbing-specific positions',w:'Wk 9–12'},{t:'Master',s:'Full expression + integration',w:'Wk 13–16'}];
+const DI=[{k:'q',t:'Quick',s:'12–15m'},{k:'s',t:'Standard',s:'~20m'},{k:'d',t:'Deep',s:'~30m'}];
+const WU=['10 deep squats — 3s hold, push knees wide with elbows','5 hip circles each direction in deep squat, heels down'];
+const CK=[{n:'Heel Hook',d:'Hook heel at hip height. Pull without cramping?'},{n:'Frog Depth',d:'Hips-to-heels distance. Should shrink.'},{n:'Cossack',d:'How deep with flat heel + upright chest?'},{n:'Pancake',d:'Seated fold — how far with flat back?'},{n:'Pigeon L/R',d:'Compare sides. Right catching up?'}];
+
+const MET=[
+{k:'heelhook',nm:'Heel Hook Height',ico:'🦶',bg:'var(--t0)',unit:'cm',desc:'Height you can hook and pull without cramping',dir:'up'},
+{k:'frog',nm:'Frog Depth',ico:'🐸',bg:'var(--g1)',unit:'cm',desc:'Hips-to-heels distance when fully rocked back (lower=better)',dir:'down'},
+{k:'cossack',nm:'Cossack Squat Depth',ico:'🏋️',bg:'var(--a0)',unit:'cm',desc:'How deep with flat heel + upright chest',dir:'up'},
+{k:'pancake',nm:'Pancake Fold',ico:'🥞',bg:'#fce7f3',unit:'cm',desc:'Chest-to-floor distance (lower=better)',dir:'down'},
+{k:'pigeon',nm:'Pigeon L/R Difference',ico:'🕊️',bg:'var(--p1)',unit:'score',desc:'Comfort 1-10 each side — track the gap closing',dir:'down'}
+];
+let S={pg:'workout',ph:1,dur:'q',exp:{},cmp:{},tmr:{},hist:[],notes:[],prog:{},dk:false};const TI={};
+function ld(){try{const d=JSON.parse(localStorage.getItem('cmob3'));if(d){if(!d.prog)d.prog={};S={...S,...d,pg:'workout',exp:{},tmr:{}}}}catch(e){}if(S.dk)document.body.classList.add('dm')}
+function sv(){const{pg,exp,tmr,...r}=S;localStorage.setItem('cmob3',JSON.stringify(r))}
+function stT(id,d){if(!S.tmr[id])S.tmr[id]={l:d,r:false};const t=S.tmr[id];if(t.l<=0)return;t.r=true;clearInterval(TI[id]);TI[id]=setInterval(()=>{t.l=Math.max(0,t.l-1);if(t.l<=0){t.r=false;clearInterval(TI[id]);try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}R()},1000);R()}
+function paT(id){if(S.tmr[id])S.tmr[id].r=false;clearInterval(TI[id]);R()}
+function reT(id,d){clearInterval(TI[id]);S.tmr[id]={l:d,r:false};R()}
+function st(){const h=S.hist,tot=h.length;let str=0;const td=new Date();td.setHours(0,0,0,0);for(let i=0;i<365;i++){const d=new Date(td);d.setDate(d.getDate()-i);if(h.some(e=>e.dt===d.toISOString().split('T')[0]))str++;else if(i>0)break}const ws=new Date(td);ws.setDate(ws.getDate()-ws.getDay());return{tot,str,wk:h.filter(e=>new Date(e.dt)>=ws).length}}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function gE(){return(EX[S.ph]||[]).filter(e=>e.lv.includes(S.dur))}
+
+function R(){const a=document.getElementById('app'),s=st(),exs=gE();
+let h=`<div class="hero"><button class="dm-toggle" onclick="DM()">${S.dk?'☀️':'🌙'}</button><div class="hero-label">Climber Mobility</div><h1>Hip Mobility Program</h1><p>Heel hooks · Frog · Cossack · Pancake · Wall proximity</p><div class="badges"><span class="badge">📅 16 weeks</span><span class="badge">🎯 Boulder</span>${s.str>0?`<span class="streak">🔥 ${s.str}</span>`:'<span class="badge">🔁 Daily</span>'}</div></div>
+<div class="stats"><div class="stat"><div class="stat-v">${s.tot}</div><div class="stat-l">Sessions</div></div><div class="stat"><div class="stat-v">${s.wk}/7</div><div class="stat-l">This Week</div></div><div class="stat"><div class="stat-v">${s.str}</div><div class="stat-l">Streak</div></div></div>
+<div class="tabs"><button class="tab ${S.pg==='workout'?'on':''}" onclick="P('workout')">Workout</button><button class="tab ${S.pg==='progress'?'on':''}" onclick="P('progress')">Progress</button><button class="tab ${S.pg==='history'?'on':''}" onclick="P('history')">History</button><button class="tab ${S.pg==='notes'?'on':''}" onclick="P('notes')">Notes</button></div>`;
+
+if(S.pg==='workout'){
+h+=`<div class="ptabs">${PI.map((p,i)=>`<button class="ptab ${S.ph===i+1?'on':''}" onclick="PH(${i+1})"><div class="ptab-s">Phase ${i+1}</div>${p.w}</button>`).join('')}</div>
+<div class="section-note">${PI[S.ph-1].t} — ${PI[S.ph-1].s}</div>
+<div class="dtabs">${DI.map(d=>`<button class="dtab ${S.dur===d.k?'on':''}" onclick="DU('${d.k}')">${d.t}<br><span style="font-weight:400;font-size:10px">${d.s}</span></button>`).join('')}</div>`;
+let cb=null;exs.forEach((ex,i)=>{
+if(ex.bt&&ex.bt!==cb){cb=ex.bt;h+=`<div class="bhead"><div class="bletter mono">${ex.bl}</div><div class="btitle">${ex.bt}</div></div>`}
+const op=S.exp[ex.id],dn=S.cmp[ex.id],tm=S.tmr[ex.id]||{l:ex.dur,r:false},td=tm.l<=0,pct=((ex.dur-tm.l)/ex.dur)*100,ci=2*Math.PI*16,mm=Math.floor(tm.l/60),ss=tm.l%60;
+h+=`<div class="card ${ex.isnew?'isnew':''} ${dn?'isdone':''} ${ex.asym?'isasym':''}"><div class="chdr" onclick="EXP('${ex.id}')"><div class="cnum ${dn?'done':''} mono">${dn?'✓':i+1}</div><div class="cinfo"><div class="ctrow"><span class="cname">${ex.nm}</span>${ex.isnew?'<span class="bnew">New</span>':''}${ex.asym?'<span class="basym">R-Side</span>':''}</div><div class="cmeta"><span class="mt">⏱ ${ex.dl}</span><span class="mg">◎ ${ex.tg}</span></div></div><div class="chev ${op?'open':''}">▾</div></div>`;
+if(op){h+=`<div class="cbody">`;
+if(ex.vid){const u=ex.vt?`https://www.youtube.com/watch?v=${ex.vid}&t=${ex.vt}`:`https://www.youtube.com/watch?v=${ex.vid}`;h+=`<a href="${u}" target="_blank" rel="noopener" class="vid"><img src="https://img.youtube.com/vi/${ex.vid}/mqdefault.jpg" alt="${ex.nm}" onerror="this.style.display='none'"><div class="vov"><div class="vplay"><div class="varr"></div></div></div><div class="vlbl">▶ Watch Demo</div></a>`}
+h+=`<div class="wbox why"><div class="wlbl">Why This Matters</div><div class="wtxt">${ex.why}</div></div>`;
+if(ex.asym)h+=`<div class="wbox asym"><div class="wlbl">Asymmetry Focus</div><div class="wtxt">Your right hip is tighter in external rotation. Extra work here closes that gap.</div></div>`;
+h+=`<div style="margin-bottom:10px"><div class="slbl">Step by Step</div>${ex.st.map((s,j)=>`<div class="srow"><div class="snum mono">${j+1}</div><div class="stxt">${s}</div></div>`).join('')}</div>`;
+if(ex.tp?.length)h+=`<div class="wbox tip"><div class="wlbl">Tips</div>${ex.tp.map(t=>`<div class="wtxt" style="margin-bottom:2px">→ ${t}</div>`).join('')}</div>`;
+h+=`<div class="tbar ${tm.r?'run':''} ${td?'dn':''}"><div class="tring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="2.5"/><circle cx="18" cy="18" r="16" fill="none" stroke="${td?'#22c55e':tm.r?'#f59e0b':'#94a3b8'}" stroke-width="2.5" stroke-dasharray="${ci}" stroke-dashoffset="${ci*(1-pct/100)}" stroke-linecap="round" transform="rotate(-90 18 18)" style="transition:.5s linear"/></svg><div class="tdisp mono">${td?'✓':mm+':'+String(ss).padStart(2,'0')}</div></div><div class="tlbl">${ex.dl}</div><div class="tbtns"><button class="tbtn ${td?'tdone':tm.r?'tpause':'tstart'}" onclick="${td?'':tm.r?`paT('${ex.id}')`:`stT('${ex.id}',${ex.dur})`}">${td?'Done':tm.r?'Pause':'Start'}</button><button class="trst" onclick="reT('${ex.id}',${ex.dur})">↺</button></div></div>`;
+h+=`<button class="bcmp ${dn?'dn':''}" onclick="CMP('${ex.id}')">${dn?'✓ Completed':'Mark Complete'}</button></div>`}h+=`</div>`});
+
+const allDn=exs.every(e=>S.cmp[e.id]);
+h+=`<button class="blog" onclick="LOG()" ${!allDn?'style="opacity:.5"':''}>${allDn?'🎉 Log Session':'⏳ Complete all to log'}</button>`;
+h+=`<div class="coll"><div class="collh" onclick="EXP('_wu')"><div><div style="font-size:14px;font-weight:700">🔥 Pre-Climb Primer</div><div style="font-size:11px;color:var(--s5)">Before climbing (2 min)</div></div><div class="chev ${S.exp._wu?'open':''}">▾</div></div>${S.exp._wu?`<div class="collb">${WU.map((s,i)=>`<div class="srow"><div class="snum" style="background:var(--a1);color:var(--a6)">${i+1}</div><div class="stxt">${s}</div></div>`).join('')}</div>`:''}</div>`;
+h+=`<div class="coll"><div class="collh" onclick="EXP('_ck')"><div><div style="font-size:14px;font-weight:700">📊 Checkpoints</div><div style="font-size:11px;color:var(--s5)">Test every 2 weeks</div></div><div class="chev ${S.exp._ck?'open':''}">▾</div></div>${S.exp._ck?`<div class="collb">${CK.map(c=>`<div style="background:var(--s1);padding:8px 12px;border-radius:8px;margin-bottom:6px"><div style="font-size:12px;font-weight:700;margin-bottom:2px">${c.n}</div><div style="font-size:11px;color:var(--s6)">${c.d}</div></div>`).join('')}</div>`:''}</div>`;
+h+=`<div class="dark"><div class="wlbl" style="color:var(--t4);margin-bottom:8px">Important Notes</div><p><strong>Pain vs discomfort:</strong> Deep stretch = fine. Sharp pain = adjust.</p><p><strong>Post-climb or evening only.</strong> Pre-climb = warm-up drills only.</p><p><strong>Breathing:</strong> Slow exhales (4-6s) reduce muscle guarding.</p><p><strong>Your build:</strong> 193cm — wider stances than tutorials show.</p><p style="margin:0"><strong>Right side:</strong> Deep duration includes extra pigeon for your asymmetry.</p></div>`;
+}else if(S.pg==='progress'){
+h+=`<div style="padding:0 16px 8px"><h2 style="font-size:18px;font-weight:800">Progress Tracking</h2><p style="font-size:11px;color:var(--s5);margin-bottom:4px">Log every 2 weeks. Tap a metric to record + view history.</p></div>`;
+MET.forEach(m=>{
+const entries=(S.prog[m.k]||[]).sort((a,b)=>a.dt.localeCompare(b.dt));
+const isOpen=S.exp['_p_'+m.k];
+const last=entries.length?entries[entries.length-1]:null;
+const prev=entries.length>1?entries[entries.length-2]:null;
+let trendH='';
+if(last&&prev){const diff=last.v-prev.v;const better=(m.dir==='up'&&diff>0)||(m.dir==='down'&&diff<0);const worse=(m.dir==='up'&&diff<0)||(m.dir==='down'&&diff>0);
+trendH=`<div class="ptrend ${better?'up':worse?'dn':'flat'}">${better?'▲':worse?'▼':'—'} ${Math.abs(diff).toFixed(1)} ${m.unit} ${better?'improved':worse?'regressed':'no change'}</div>`}
+// Sparkline SVG
+let sparkH='';
+if(entries.length>=2){const vals=entries.map(e=>e.v);const mn=Math.min(...vals),mx=Math.max(...vals);const range=mx-mn||1;
+const w=280,ht=50,pad=4;const pts=vals.map((v,i)=>{const x=pad+i*((w-2*pad)/(vals.length-1));const y=pad+(1-(v-mn)/range)*(ht-2*pad);return`${x},${y}`}).join(' ');
+const col=m.dir==='up'?'var(--g5)':'var(--t5)';
+sparkH=`<svg class="spark" viewBox="0 0 ${w} ${ht}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${vals.map((v,i)=>{const x=pad+i*((w-2*pad)/(vals.length-1));const y=pad+(1-(v-mn)/range)*(ht-2*pad);return`<circle cx="${x}" cy="${y}" r="3.5" fill="${col}" stroke="#fff" stroke-width="1.5"/>`}).join('')}</svg>`}
+h+=`<div class="pcard"><div class="pcard-hdr" style="cursor:pointer" onclick="EXP('_p_${m.k}')"><div class="pcard-ico" style="background:${m.bg}">${m.ico}</div><div style="flex:1"><div class="pcard-nm">${m.nm}</div><div class="pcard-unit">${m.desc}</div>${trendH}</div><div style="text-align:right">${last?`<div style="font-size:18px;font-weight:800;color:var(--s9)">${last.v}</div><div style="font-size:9px;color:var(--s5)">${m.unit}</div>`:`<div style="font-size:11px;color:var(--s4)">No data</div>`}<div class="chev ${isOpen?'open':''}" style="margin-top:4px">▾</div></div></div>`;
+if(isOpen){
+h+=sparkH;
+h+=`<div class="pinp-row"><input type="number" class="pinp" id="pv_${m.k}" placeholder="Value (${m.unit})" step="0.5"><input type="text" class="pinp-note" id="pn_${m.k}" placeholder="Note (optional)"><button class="pbtn" onclick="PADD('${m.k}')">Log</button></div>`;
+if(entries.length){
+h+=`<button class="ptoggle" onclick="EXP('_ph_${m.k}')">${S.exp['_ph_'+m.k]?'Hide':'Show'} all entries (${entries.length})</button>`;
+if(S.exp['_ph_'+m.k]){[...entries].reverse().forEach((e,i)=>{const d=new Date(e.dt+'T12:00:00');
+h+=`<div class="pentry"><span class="pentry-dt">${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span><span class="pentry-val">${e.v} ${m.unit}</span>${e.n?`<span class="pentry-note" title="${esc(e.n)}">${esc(e.n)}</span>`:''}<button class="pentry-del" onclick="PDEL('${m.k}',${entries.length-1-i})">×</button></div>`})}
+}}
+h+=`</div>`});
+// Summary card
+const allEntries=MET.map(m=>({...m,entries:(S.prog[m.k]||[]).sort((a,b)=>a.dt.localeCompare(b.dt))}));
+const hasData=allEntries.some(m=>m.entries.length>=2);
+if(hasData){h+=`<div class="dark" style="margin-top:8px"><div class="wlbl">Overview</div>`;
+allEntries.forEach(m=>{if(m.entries.length<2)return;const first=m.entries[0],last=m.entries[m.entries.length-1];const diff=last.v-first.v;const better=(m.dir==='up'&&diff>0)||(m.dir==='down'&&diff<0);
+h+=`<p><strong>${m.nm}:</strong> ${first.v} → ${last.v} ${m.unit} <span style="color:${better?'var(--t4)':'#f87171'}">(${diff>0?'+':''}${diff.toFixed(1)})</span></p>`});
+h+=`</div>`}
+
+}else if(S.pg==='history'){
+h+=`<div style="padding:0 16px 8px"><h2 style="font-size:18px;font-weight:800">Session History</h2></div>`;
+if(!S.hist.length)h+=`<div class="empty"><div class="emo">📋</div><p>No sessions yet.</p></div>`;
+else[...S.hist].sort((a,b)=>b.dt.localeCompare(a.dt)).forEach((e,i)=>{const d=new Date(e.dt+'T12:00:00');h+=`<div class="hentry"><div><div class="hdate">${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</div><div class="hmeta">${e.ex} exercises · ${DI.find(x=>x.k===e.dur)?.t||'Quick'}</div></div><div style="display:flex;align-items:center"><span class="hphase">Phase ${e.ph}</span><button class="hdel" onclick="HD(${i})">×</button></div></div>`});
+}else{
+h+=`<div style="padding:0 16px 10px"><h2 style="font-size:18px;font-weight:800;margin-bottom:6px">Progress Notes</h2><p style="font-size:11px;color:var(--s5);margin-bottom:10px">Record checkpoint results + mobility wins.</p><textarea class="ninp" id="ni" placeholder="e.g. Frog much deeper, right pigeon catching up..."></textarea><button class="nsave" onclick="NS()">Save Note</button></div>`;
+if(!S.notes.length)h+=`<div class="empty"><div class="emo">📝</div><p>Track progress every 2 weeks.</p></div>`;
+else[...S.notes].sort((a,b)=>b.dt.localeCompare(a.dt)).forEach((n,i)=>{const d=new Date(n.dt+'T12:00:00');h+=`<div class="ncard"><div style="display:flex;justify-content:space-between"><div class="ndate">${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</div><button class="hdel" onclick="ND(${i})">×</button></div><div class="ntxt">${esc(n.txt)}</div></div>`})}
+a.innerHTML=h}
+
+function DM(){S.dk=!S.dk;document.body.classList.toggle('dm',S.dk);document.querySelector('meta[name=theme-color]').content=S.dk?'#0c1220':'#0f172a';sv();R()}
+function P(p){S.pg=p;R()}
+function PH(p){S.ph=p;S.cmp={};S.exp={};Object.keys(TI).forEach(k=>clearInterval(TI[k]));S.tmr={};R()}
+function DU(d){S.dur=d;S.cmp={};S.exp={};Object.keys(TI).forEach(k=>clearInterval(TI[k]));S.tmr={};R()}
+function EXP(id){S.exp[id]=!S.exp[id];R()}
+function CMP(id){S.cmp[id]=!S.cmp[id];sv();R()}
+function LOG(){const exs=gE();if(!exs.every(e=>S.cmp[e.id]))return;const td=new Date().toISOString().split('T')[0];
+S.hist.push({dt:td,ph:S.ph,dur:S.dur,ex:exs.length});S.cmp={};Object.keys(TI).forEach(k=>clearInterval(TI[k]));S.tmr={};sv();R();
+const c=document.createElement('div');c.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:999';
+c.innerHTML=`<div style="background:#fff;border-radius:20px;padding:28px;text-align:center;max-width:260px"><div style="font-size:56px;margin-bottom:10px">🎉</div><div style="font-size:18px;font-weight:800;margin-bottom:6px">Session Logged!</div><div style="font-size:12px;color:var(--s5);margin-bottom:14px">Consistency beats intensity.</div><button onclick="this.closest('div[style*=fixed]').remove()" style="padding:8px 20px;border-radius:8px;border:none;background:var(--s9);color:#fff;font-family:'DM Sans';font-size:13px;font-weight:700;cursor:pointer">Nice!</button></div>`;
+document.body.appendChild(c)}
+function HD(i){if(!confirm('Delete?'))return;const sorted=[...S.hist].sort((a,b)=>b.dt.localeCompare(a.dt));const idx=S.hist.indexOf(sorted[i]);if(idx>-1)S.hist.splice(idx,1);sv();R()}
+function NS(){const inp=document.getElementById('ni');if(!inp||!inp.value.trim())return;S.notes.push({dt:new Date().toISOString().split('T')[0],txt:inp.value.trim()});sv();R()}
+function ND(i){if(!confirm('Delete?'))return;const sorted=[...S.notes].sort((a,b)=>b.dt.localeCompare(a.dt));const idx=S.notes.indexOf(sorted[i]);if(idx>-1)S.notes.splice(idx,1);sv();R()}
+function PADD(k){const inp=document.getElementById('pv_'+k);const ninp=document.getElementById('pn_'+k);if(!inp||!inp.value)return;const v=parseFloat(inp.value);if(isNaN(v))return;if(!S.prog[k])S.prog[k]=[];S.prog[k].push({dt:new Date().toISOString().split('T')[0],v:v,n:(ninp&&ninp.value.trim())||''});sv();R()}
+function PDEL(k,i){if(!confirm('Delete entry?'))return;if(S.prog[k]){S.prog[k].splice(i,1);sv();R()}}
+
+ld();R();
+
+// --- Service Worker Registration ---
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+
+// --- Generate PNG icons from SVG if not already cached ---
+async function genIcons(){
+try{
+const resp=await fetch('icon.svg');const svgText=await resp.text();
+const blob=new Blob([svgText],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+for(const size of [192,512]){
+const canvas=document.createElement('canvas');canvas.width=size;canvas.height=size;
+const ctx=canvas.getContext('2d');const img=new Image();
+await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
+ctx.drawImage(img,0,0,size,size);
+const pngBlob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+const cache=await caches.open('climber-mobility-v1');
+cache.put(new Request(`icon-${size}.png`),new Response(pngBlob,{headers:{'Content-Type':'image/png'}}));
+}
+URL.revokeObjectURL(url);
+}catch(e){}
+}
+genIcons();
+</script>
+</body>
+</html>
