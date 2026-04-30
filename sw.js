@@ -1,4 +1,4 @@
-const CACHE_NAME = 'climber-mobility-v3';
+const CACHE_NAME = 'climber-mobility-v4';
 const ASSETS = [
   './',
   './climbing-mobility-app.html',
